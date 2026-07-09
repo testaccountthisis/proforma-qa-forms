@@ -1,0 +1,1229 @@
+# ==========================================================
+#  USCIS Form G-28 — portable config (edition 09/17/18)
+#
+#  Edit and re-import to update this form's logic everywhere it is used.
+#  Lines starting with # are COMMENTS and are ignored on import.
+#
+#  Fields are anchored by their PDF widget name (raw_name), so this file
+#  maps onto any copy of the same official PDF edition.
+#
+#  Operators: is checked / is not checked · equals / is not · contains
+#    · greater than / less than / at least / at most · is empty /
+#    is not empty · on / before / after / on or before / on or after
+# ==========================================================
+
+form:
+  form_number: G-28
+  edition_date: 09/17/18
+
+# ──────  SECTIONS  ──────
+#   Verbatim section/subsection headers in PDF order; list_type flags repeating lists.
+sections:
+- name: Part 1. Information About Attorney or Accredited Representative
+  order: 0
+  list_type: not_list
+- name: Part 2. Eligibility Information for Attorney or Accredited Representative
+  order: 1
+  list_type: not_list
+- name: Part 3. Notice of Appearance as Attorney or Accredited Representative
+  order: 2
+  list_type: not_list
+- name: Part 4. Client's Consent to Representation and Signature
+  order: 3
+  list_type: not_list
+- name: Part 5. Signature of Attorney or Accredited Representative
+  order: 4
+  list_type: not_list
+- name: Part 6. Additional Information
+  order: 5
+  list_type: not_list
+
+# ──────  BOOKMARKS  ──────
+#   Saved Part highlight regions (normalized [x,y,w,h]); clicking the bookmark flashes this box on the PDF.
+bookmarks:
+- label: Address of Attor
+  page: 2
+  rect:
+  - 0.49693627450980393
+  - 0.22537878787878787
+  - 0.45588235294117646
+  - 0.3371212121212121
+
+# ──────  RULES  ──────
+#   Copy=reuse · Same person=identity · Reminder=requirement · Conflict=exclusion · Documents=evidence
+rules:
+# Conflict: when "Daytime Telephone Number" is not empty, "Fax Number" is empty
+- type: exclusion
+  when:
+    all_of:
+    - Line4_DaytimeTelephoneNumber[0]: is not empty
+  require:
+    all_of:
+    - Pt1ItemNumber7_FaxNumber[0]: is empty
+# Reuse: "Mobile Telephone Number (if any)" is filled from "Daytime Telephone Number"
+- type: copy
+  copy:
+    to: Line6_EMail[0]
+    from: Line4_DaytimeTelephoneNumber[0]
+
+# ──────  VARIABLES  ──────
+#   Named reusable values.
+variables: []
+
+# ──────  FIELDS  ──────
+#   Field metadata + per-field constraints, keyed by raw_name.
+fields:
+  # "Fax Number" · Part 1 · attorney
+  Pt1ItemNumber7_FaxNumber[0]:
+    field_name: Pt1ItemNumber7_FaxNumber
+    label: ''
+    question: Fax Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 1. Information About Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt1ItemNumber7_FaxNumber[0]
+  # "Middle Name" · Part 1 · attorney
+  Pt1Line2c_MiddleName[0]:
+    field_name: Pt1Line2c_MiddleName
+    label: ''
+    question: Middle Name
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: attorney
+    section: Part 1. Information About Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt1Line2c_MiddleName[0]
+    canonical: name.middle
+  # "Given Name" · Part 1 · attorney
+  Pt1Line2b_GivenName[0]:
+    field_name: Pt1Line2b_GivenName
+    label: ''
+    question: Given Name
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: attorney
+    section: Part 1. Information About Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt1Line2b_GivenName[0]
+    canonical: name.given
+  # "Family Name" · Part 1 · attorney
+  Pt1Line2a_FamilyName[0]:
+    field_name: Pt1Line2a_FamilyName
+    label: ''
+    question: Family Name
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 1. Information About Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt1Line2a_FamilyName[0]
+    canonical: name.family
+  # "USCISOnline Acct Number" · Part 1 · attorney
+  Pt1Line1_USCISOnlineAcctNumber[0]:
+    field_name: Pt1Line1_USCISOnlineAcctNumber
+    label: ''
+    question: USCISOnline Acct Number
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 1. Information About Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt1Line1_USCISOnlineAcctNumber[0]
+  # "Nameof Firm Or Organization" · Part 2 · attorney
+  Pt2Line1d_NameofFirmOrOrganization[0]:
+    field_name: Pt2Line1d_NameofFirmOrOrganization
+    label: ''
+    question: Nameof Firm Or Organization
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 2. Eligibility Information for Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt2Line1d_NameofFirmOrOrganization[0]
+    canonical: attorney.name_of_the_law_firm
+  # "Bar Number" · Part 2 · attorney
+  Pt2Line1b_BarNumber[0]:
+    field_name: Pt2Line1b_BarNumber
+    label: ''
+    question: Bar Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 2. Eligibility Information for Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt2Line1b_BarNumber[0]
+    canonical: attorney.attorney_state_bar_number
+  # "Licensing Authority" · Part 2 · attorney
+  Pt2Line1a_LicensingAuthority[0]:
+    field_name: Pt2Line1a_LicensingAuthority
+    label: ''
+    question: Licensing Authority
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 2. Eligibility Information for Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt2Line1a_LicensingAuthority[0]
+    canonical: attorney.licensing_authority
+  # "ANumber" · Part 3 · beneficiary
+  Pt3Line9_ANumber[0]:
+    field_name: Pt3Line9_ANumber
+    label: ''
+    question: ANumber
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: beneficiary
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line9_ANumber[0]
+    canonical: a_number
+  # "USCISOnline Acct Number" · Part 3 · beneficiary
+  Pt3Line8_USCISOnlineAcctNumber[0]:
+    field_name: Pt3Line8_USCISOnlineAcctNumber
+    label: ''
+    question: USCISOnline Acct Number
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: beneficiary
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line8_USCISOnlineAcctNumber[0]
+    canonical: uscis_account_number
+  # "Titleof Entity" · Part 3 · beneficiary
+  Pt3Line7b_TitleofEntity[0]:
+    field_name: Pt3Line7b_TitleofEntity
+    label: ''
+    question: Titleof Entity
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: self
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line7b_TitleofEntity[0]
+  # "Name Of Entity" · Part 3 · beneficiary
+  Pt3Line7a_NameOfEntity[0]:
+    field_name: Pt3Line7a_NameOfEntity
+    label: ''
+    question: Name Of Entity
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: self
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line7a_NameOfEntity[0]
+  # "Middle Name" · Part 3 · beneficiary
+  Pt3Line5c_MiddleName[0]:
+    field_name: Pt3Line5c_MiddleName
+    label: ''
+    question: Middle Name
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: self
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line5c_MiddleName[0]
+    canonical: name.middle
+  # "Given Name" · Part 3 · beneficiary
+  Pt3Line5b_GivenName[0]:
+    field_name: Pt3Line5b_GivenName
+    label: ''
+    question: Given Name
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: self
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line5b_GivenName[0]
+    canonical: name.given
+  # "Family Name" · Part 3 · beneficiary
+  Pt3Line5a_FamilyName[0]:
+    field_name: Pt3Line5a_FamilyName
+    label: ''
+    question: Family Name
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: self
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line5a_FamilyName[0]
+    canonical: name.family
+  # "Receipt Number" · Part 3 · beneficiary
+  Pt3Line4_ReceiptNumber[0]:
+    field_name: Pt3Line4_ReceiptNumber
+    label: ''
+    question: Receipt Number
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: self
+    section: Part 3. Notice of Appearance as Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt3Line4_ReceiptNumber[0]
+  # "Dateof Signature" · Part 4 · attorney
+  Pt4Line2b_DateofSignature[0]:
+    field_name: Pt4Line2b_DateofSignature
+    label: ''
+    question: Dateof Signature
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 4. Client's Consent to Representation and Signature
+    question_number: ''
+    raw_names:
+    - Pt4Line2b_DateofSignature[0]
+  # "Check Box 2c" · Part 4 · attorney
+  Pt4Line2c_CheckBox2c[0]:
+    field_name: Pt4Line2c_CheckBox2c
+    label: ''
+    question: Check Box 2c
+    field_type: checkbox
+    value_type: checkbox
+    role_context: attorney
+    subject_path: self
+    section: Part 4. Client's Consent to Representation and Signature
+    question_number: ''
+    raw_names:
+    - Pt4Line2c_CheckBox2c[0]
+    on_state: /Y
+  # "Check Box 2b" · Part 4 · attorney
+  Pt4Line2b_CheckBox2b[0]:
+    field_name: Pt4Line2b_CheckBox2b
+    label: ''
+    question: Check Box 2b
+    field_type: checkbox
+    value_type: checkbox
+    role_context: attorney
+    subject_path: self
+    section: Part 4. Client's Consent to Representation and Signature
+    question_number: ''
+    raw_names:
+    - Pt4Line2b_CheckBox2b[0]
+    on_state: /Y
+  # "Check Box 2a" · Part 4 · attorney
+  Pt4Line2a_CheckBox2a[0]:
+    field_name: Pt4Line2a_CheckBox2a
+    label: ''
+    question: Check Box 2a
+    field_type: checkbox
+    value_type: checkbox
+    role_context: attorney
+    subject_path: self
+    section: Part 4. Client's Consent to Representation and Signature
+    question_number: ''
+    raw_names:
+    - Pt4Line2a_CheckBox2a[0]
+    on_state: /Y
+  # "Dateof Signature" · Part 5 · attorney
+  Pt5Line2b_DateofSignature[0]:
+    field_name: Pt5Line2b_DateofSignature
+    label: ''
+    question: Dateof Signature
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 5. Signature of Attorney or Accredited Representative
+    question_number: ''
+    raw_names:
+    - Pt5Line2b_DateofSignature[0]
+  # Q3.d · "Additional Info" · Part 6 · attorney
+  Pt9Line4d_AdditionalInfo[0]:
+    field_name: Pt9Line4d_AdditionalInfo
+    label: ''
+    question: Additional Info
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 3.d
+    raw_names:
+    - Pt9Line4d_AdditionalInfo[0]
+  # Q6.a · "Page Number" · Part 6 · attorney
+  Pt9Line6a_PageNumber[0]:
+    field_name: Pt9Line6a_PageNumber
+    label: ''
+    question: Page Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 6.a
+    raw_names:
+    - Pt9Line6a_PageNumber[0]
+  # Q6.b · "Part Number" · Part 6 · attorney
+  Pt9Line6b_PartNumber[0]:
+    field_name: Pt9Line6b_PartNumber
+    label: ''
+    question: Part Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 6.b
+    raw_names:
+    - Pt9Line6b_PartNumber[0]
+  # Q6.c · "Item Number" · Part 6 · attorney
+  Pt9Line6c_ItemNumber[0]:
+    field_name: Pt9Line6c_ItemNumber
+    label: ''
+    question: Item Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 6.c
+    raw_names:
+    - Pt9Line6c_ItemNumber[0]
+  # Q3.a · "Page Number" · Part 6 · attorney
+  Pt9Line4a_PageNumber[0]:
+    field_name: Pt9Line4a_PageNumber
+    label: ''
+    question: Page Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 3.a
+    raw_names:
+    - Pt9Line4a_PageNumber[0]
+  # Q3.b · "Part Number" · Part 6 · attorney
+  Pt9Line4b_PartNumber[0]:
+    field_name: Pt9Line4b_PartNumber
+    label: ''
+    question: Part Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 3.b
+    raw_names:
+    - Pt9Line4b_PartNumber[0]
+  # Q3.c · "Item Number" · Part 6 · attorney
+  Pt9Line4c_ItemNumber[0]:
+    field_name: Pt9Line4c_ItemNumber
+    label: ''
+    question: Item Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 3.c
+    raw_names:
+    - Pt9Line4c_ItemNumber[0]
+  # Q5.d · "Additional Info" · Part 6 · attorney
+  Pt9Line6d_AdditionalInfo[0]:
+    field_name: Pt9Line6d_AdditionalInfo
+    label: ''
+    question: Additional Info
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 5.d
+    raw_names:
+    - Pt9Line6d_AdditionalInfo[0]
+  # Q5.a · "Page Number" · Part 6 · attorney
+  Pt9Line6a_PageNumber[1]:
+    field_name: Pt9Line6a_PageNumber[1]
+    label: ''
+    question: Page Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 5.a
+    raw_names:
+    - Pt9Line6a_PageNumber[1]
+  # Q5.b · "Part Number" · Part 6 · attorney
+  Pt9Line6b_PartNumber[1]:
+    field_name: Pt9Line6b_PartNumber[1]
+    label: ''
+    question: Part Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 5.b
+    raw_names:
+    - Pt9Line6b_PartNumber[1]
+  # Q5.c · "Item Number" · Part 6 · attorney
+  Pt9Line6c_ItemNumber[1]:
+    field_name: Pt9Line6c_ItemNumber[1]
+    label: ''
+    question: Item Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 5.c
+    raw_names:
+    - Pt9Line6c_ItemNumber[1]
+  # Q2.d · "Additional Info" · Part 6 · attorney
+  Pt9Line3d_AdditionalInfo[0]:
+    field_name: Pt9Line3d_AdditionalInfo
+    label: ''
+    question: Additional Info
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 2.d
+    raw_names:
+    - Pt9Line3d_AdditionalInfo[0]
+  # Q4.d · "Additional Info" · Part 6 · attorney
+  Pt9Line5d_AdditionalInfo[0]:
+    field_name: Pt9Line5d_AdditionalInfo
+    label: ''
+    question: Additional Info
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 4.d
+    raw_names:
+    - Pt9Line5d_AdditionalInfo[0]
+  # Q2.a · "Page Number" · Part 6 · attorney
+  Pt9Line3a_PageNumber[0]:
+    field_name: Pt9Line3a_PageNumber
+    label: ''
+    question: Page Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 2.a
+    raw_names:
+    - Pt9Line3a_PageNumber[0]
+  # Q2.b · "Part Number" · Part 6 · attorney
+  Pt9Line3b_PartNumber[0]:
+    field_name: Pt9Line3b_PartNumber
+    label: ''
+    question: Part Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 2.b
+    raw_names:
+    - Pt9Line3b_PartNumber[0]
+  # Q2.c · "Item Number" · Part 6 · attorney
+  Pt9Line3c_ItemNumber[0]:
+    field_name: Pt9Line3c_ItemNumber
+    label: ''
+    question: Item Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 2.c
+    raw_names:
+    - Pt9Line3c_ItemNumber[0]
+  # Q6.d · "Additional Info" · Part 6 · attorney
+  Pt9Line6d_AdditionalInfo[1]:
+    field_name: Pt9Line6d_AdditionalInfo[1]
+    label: ''
+    question: Additional Info
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 6.d
+    raw_names:
+    - Pt9Line6d_AdditionalInfo[1]
+  # Q4.a · "Page Number" · Part 6 · attorney
+  Pt9Line5a_PageNumber[0]:
+    field_name: Pt9Line5a_PageNumber
+    label: ''
+    question: Page Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 4.a
+    raw_names:
+    - Pt9Line5a_PageNumber[0]
+  # Q4.b · "Part Number" · Part 6 · attorney
+  Pt9Line5b_PartNumber[0]:
+    field_name: Pt9Line5b_PartNumber
+    label: ''
+    question: Part Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 4.b
+    raw_names:
+    - Pt9Line5b_PartNumber[0]
+  # Q4.c · "Item Number" · Part 6 · attorney
+  Pt9Line5c_ItemNumber[0]:
+    field_name: Pt9Line5c_ItemNumber
+    label: ''
+    question: Item Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: Part 6. Additional Information
+    question_number: 4.c
+    raw_names:
+    - Pt9Line5c_ItemNumber[0]
+  # "Law Student"
+  Line4b_LawStudent[0]:
+    field_name: Line4b_LawStudent
+    label: ''
+    question: Law Student
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line4b_LawStudent[0]
+  # "Check Box 4"
+  CheckBox4[0]:
+    field_name: CheckBox4
+    label: ''
+    question: Check Box 4
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - CheckBox4[0]
+    on_state: /Y
+  # "Mobile Telephone Number" · attorney
+  Line7_MobileTelephoneNumber[0]:
+    field_name: Line7_MobileTelephoneNumber
+    label: ''
+    question: Mobile Telephone Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line7_MobileTelephoneNumber[0]
+    canonical: contact.email
+  # "Mobile Telephone Number (if any)" · attorney
+  Line6_EMail[0]:
+    field_name: Line6_EMail
+    label: ''
+    question: Mobile Telephone Number (if any)
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line6_EMail[0]
+    canonical: contact.phone.mobile
+  # "Nameof Attorney Or Rep"
+  Line3_NameofAttorneyOrRep[0]:
+    field_name: Line3_NameofAttorneyOrRep
+    label: ''
+    question: Nameof Attorney Or Rep
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3_NameofAttorneyOrRep[0]
+  # "Check Box 3"
+  CheckBox3[0]:
+    field_name: CheckBox3
+    label: ''
+    question: Check Box 3
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - CheckBox3[0]
+    on_state: /Y
+  # "Daytime Telephone Number" · attorney
+  Line4_DaytimeTelephoneNumber[0]:
+    field_name: Line4_DaytimeTelephoneNumber
+    label: ''
+    question: Daytime Telephone Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line4_DaytimeTelephoneNumber[0]
+    canonical: contact.phone.daytime
+  # "Date Expires"
+  Line2c_DateExpires[0]:
+    field_name: Line2c_DateExpires
+    label: ''
+    question: Date Expires
+    field_type: text
+    value_type: date
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line2c_DateExpires[0]
+  # "Nameof Organization"
+  Line2b_NameofOrganization[0]:
+    field_name: Line2b_NameofOrganization
+    label: ''
+    question: Nameof Organization
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line2b_NameofOrganization[0]
+  # "Country" · attorney
+  Line3h_Country[0]:
+    field_name: Line3h_Country
+    label: ''
+    question: Country
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3h_Country[0]
+  # "Postal Code" · attorney
+  Line3g_PostalCode[0]:
+    field_name: Line3g_PostalCode
+    label: ''
+    question: Postal Code
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3g_PostalCode[0]
+  # "Check Box 2"
+  CheckBox2[0]:
+    field_name: CheckBox2
+    label: ''
+    question: Check Box 2
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - CheckBox2[0]
+    on_state: /Y
+  # "Province" · attorney
+  Line3f_Province[0]:
+    field_name: Line3f_Province
+    label: ''
+    question: Province
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3f_Province[0]
+  # "State" · attorney
+  Line3d_State[0]:
+    field_name: Line3d_State
+    label: ''
+    question: State
+    field_type: select
+    value_type: choice
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3d_State[0]
+  # "Zip Code" · attorney
+  Line3e_ZipCode[0]:
+    field_name: Line3e_ZipCode
+    label: ''
+    question: Zip Code
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3e_ZipCode[0]
+  # "City Or Town" · attorney
+  Line3c_CityOrTown[0]:
+    field_name: Line3c_CityOrTown
+    label: ''
+    question: City Or Town
+    field_type: text
+    value_type: text
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3c_CityOrTown[0]
+  # "Apt Ste Flr Number" · attorney
+  Line3b_AptSteFlrNumber[0]:
+    field_name: Line3b_AptSteFlrNumber
+    label: ''
+    question: Apt Ste Flr Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3b_AptSteFlrNumber[0]
+    canonical: address.mailing.apt_ste_flr
+  # "Unit"
+  Line3b_Unit[0]:
+    field_name: Line3b_Unit
+    label: ''
+    question: Unit
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3b_Unit[0]
+    on_state: '/ STE '
+  # "Street Number" · attorney
+  Line3a_StreetNumber[0]:
+    field_name: Line3a_StreetNumber
+    label: ''
+    question: Street Number
+    field_type: text
+    value_type: number
+    role_context: attorney
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3a_StreetNumber[0]
+    canonical: address.mailing.street
+  # "Checkbox 1d Am Not"
+  Checkbox1dAmNot[0]:
+    field_name: Checkbox1dAmNot
+    label: ''
+    question: Checkbox 1d Am Not
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Checkbox1dAmNot[0]
+    on_state: /Y
+  # "Checkbox 1d Am"
+  Checkbox1dAm[0]:
+    field_name: Checkbox1dAm
+    label: ''
+    question: Checkbox 1d Am
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Checkbox1dAm[0]
+    on_state: /N
+  # "Check Box 1"
+  CheckBox1[0]:
+    field_name: CheckBox1
+    label: ''
+    question: Check Box 1
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - CheckBox1[0]
+    on_state: /Y
+  # "Country"
+  Line12h_Country[0]:
+    field_name: Line12h_Country
+    label: ''
+    question: Country
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12h_Country[0]
+  # "Postal Code"
+  Line12g_PostalCode[0]:
+    field_name: Line12g_PostalCode
+    label: ''
+    question: Postal Code
+    field_type: text
+    value_type: number
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12g_PostalCode[0]
+  # "Checkbox"
+  Line4_Checkbox[0]:
+    field_name: Line4_Checkbox
+    label: ''
+    question: Checkbox
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line4_Checkbox[0]
+    on_state: /R
+  # "Province"
+  Line12f_Province[0]:
+    field_name: Line12f_Province
+    label: ''
+    question: Province
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12f_Province[0]
+  # "State" · beneficiary
+  Line12d_State[0]:
+    field_name: Line12d_State
+    label: ''
+    question: State
+    field_type: select
+    value_type: choice
+    role_context: beneficiary
+    subject_path: beneficiary
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12d_State[0]
+    canonical: address.mailing.state
+  # "Zip Code" · beneficiary
+  Line12e_ZipCode[0]:
+    field_name: Line12e_ZipCode
+    label: ''
+    question: Zip Code
+    field_type: text
+    value_type: number
+    role_context: beneficiary
+    subject_path: beneficiary
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12e_ZipCode[0]
+    canonical: address.mailing.zip
+  # "City Or Town" · beneficiary
+  Line12c_CityOrTown[0]:
+    field_name: Line12c_CityOrTown
+    label: ''
+    question: City Or Town
+    field_type: text
+    value_type: text
+    role_context: beneficiary
+    subject_path: beneficiary
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12c_CityOrTown[0]
+    canonical: address.mailing.city
+  # "List Specific Matter"
+  Line3b_ListSpecificMatter[0]:
+    field_name: Line3b_ListSpecificMatter
+    label: ''
+    question: List Specific Matter
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3b_ListSpecificMatter[0]
+  # "Apt Ste Flr Number"
+  Line12b_AptSteFlrNumber[0]:
+    field_name: Line12b_AptSteFlrNumber
+    label: ''
+    question: Apt Ste Flr Number
+    field_type: text
+    value_type: number
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12b_AptSteFlrNumber[0]
+  # "Unit"
+  Line12b_Unit[0]:
+    field_name: Line12b_Unit
+    label: ''
+    question: Unit
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12b_Unit[0]
+    on_state: '/ STE '
+  # "Street Number Name" · beneficiary
+  Line12a_StreetNumberName[0]:
+    field_name: Line12a_StreetNumberName
+    label: ''
+    question: Street Number Name
+    field_type: text
+    value_type: number
+    role_context: beneficiary
+    subject_path: beneficiary
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line12a_StreetNumberName[0]
+    canonical: address.mailing.street
+  # "CBP"
+  Line3a_CBP[0]:
+    field_name: Line3a_CBP
+    label: ''
+    question: CBP
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3a_CBP[0]
+    on_state: /Y
+  # "List Matter"
+  Line2b_ListMatter[0]:
+    field_name: Line2b_ListMatter
+    label: ''
+    question: List Matter
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line2b_ListMatter[0]
+  # "ICE"
+  Line2a_ICE[0]:
+    field_name: Line2a_ICE
+    label: ''
+    question: ICE
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line2a_ICE[0]
+    on_state: /Y
+  # "List Form Number"
+  Line1b_ListFormNumber[0]:
+    field_name: Line1b_ListFormNumber
+    label: ''
+    question: List Form Number
+    field_type: text
+    value_type: number
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line1b_ListFormNumber[0]
+  # "EMail"
+  Line11_EMail[0]:
+    field_name: Line11_EMail
+    label: ''
+    question: EMail
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line11_EMail[0]
+  # "USCIS"
+  Line1a_USCIS[0]:
+    field_name: Line1a_USCIS
+    label: ''
+    question: USCIS
+    field_type: checkbox
+    value_type: checkbox
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line1a_USCIS[0]
+    on_state: /Y
+  # "Mobile Telephone Number"
+  Line10_MobileTelephoneNumber[0]:
+    field_name: Line10_MobileTelephoneNumber
+    label: ''
+    question: Mobile Telephone Number
+    field_type: text
+    value_type: number
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line10_MobileTelephoneNumber[0]
+  # "Daytime Telephone Number" · beneficiary
+  Line9_DaytimeTelephoneNumber[0]:
+    field_name: Line9_DaytimeTelephoneNumber
+    label: ''
+    question: Daytime Telephone Number
+    field_type: text
+    value_type: number
+    role_context: beneficiary
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line9_DaytimeTelephoneNumber[0]
+    canonical: contact.phone.daytime
+  # "Line 6a Signatureof Applicant"
+  P5_Line6a_SignatureofApplicant[0]:
+    field_name: P5_Line6a_SignatureofApplicant
+    label: ''
+    question: Line 6a Signatureof Applicant
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - P5_Line6a_SignatureofApplicant[0]
+  # "Signature Student"
+  Line2_SignatureStudent[0]:
+    field_name: Line2_SignatureStudent
+    label: ''
+    question: Signature Student
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line2_SignatureStudent[0]
+  # "Date"
+  Line3_Date[0]:
+    field_name: Line3_Date
+    label: ''
+    question: Date
+    field_type: text
+    value_type: date
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line3_Date[0]
+  # "Signature"
+  Line1_Signature[0]:
+    field_name: Line1_Signature
+    label: ''
+    question: Signature
+    field_type: text
+    value_type: text
+    role_context: general
+    subject_path: self
+    section: ''
+    question_number: ''
+    raw_names:
+    - Line1_Signature[0]
